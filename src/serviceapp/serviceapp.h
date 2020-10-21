@@ -10,7 +10,6 @@
 
 #include "common.h"
 #include "extplayer.h"
-#include "scriptrun.h"
 #include "m3u8.h"
 
 struct eServiceAppOptions
@@ -30,11 +29,10 @@ struct eServiceAppOptions
 };
 
 #if SIGCXX_MAJOR_VERSION == 2
-class eServiceApp: public sigc::trackable,
+class eServiceApp: public sigc::trackable, public iPlayableService, public iPauseableService, public iSeekableService,
 #else
-class eServiceApp: public Object,
+class eServiceApp: public Object, public iPlayableService, public iPauseableService, public iSeekableService,
 #endif
-	public iPlayableService, public iPauseableService, public iSeekableService, public iStreamedService,
 	public iAudioChannelSelection, public iAudioTrackSelection,  public iSubtitleOutput, public iSubserviceList, public iServiceInformation
 {
 	DECLARE_REF(eServiceApp);
@@ -54,11 +52,8 @@ class eServiceApp: public Object,
 	eServiceAppOptions *options;
 	PlayerBackend *player;
 	BasePlayer *extplayer;
-	ResolveUrl *m_resolver;
 	std::string cmd;
-	std::string m_resolve_uri;
 
-	bool m_event_started;
 	bool m_paused;
 	int m_framerate, m_width, m_height, m_progressive;
 
@@ -90,7 +85,6 @@ class eServiceApp: public Object,
 	void pullSubtitles();
 	void pushSubtitles();
 	void signalEventUpdatedInfo();
-	void urlResolved(int success);
 
 #ifdef HAVE_EPG
 	ePtr<eTimer> m_nownext_timer;
@@ -124,15 +118,13 @@ public:
 	RESULT subServices(ePtr<iSubserviceList> &ptr){ ptr=this; return 0;};
 	RESULT frontendInfo(ePtr<iFrontendInformation> &ptr){ ptr=0; return -1;};
 	RESULT timeshift(ePtr<iTimeshiftService> &ptr){ ptr=0; return -1;};
-	RESULT tap(ePtr<iTapService> &ptr) { ptr = nullptr; return -1; };
 	RESULT cueSheet(ePtr<iCueSheet> &ptr){ ptr=0; return -1;};
 	RESULT subtitle(ePtr<iSubtitleOutput> &ptr){ ptr=this; return 0;};
 	RESULT audioDelay(ePtr<iAudioDelay> &ptr){ ptr=0; return -1;};
 	RESULT rdsDecoder(ePtr<iRdsDecoder> &ptr){ ptr=0; return -1;};
 	RESULT stream(ePtr<iStreamableService> &ptr){ ptr=0; return -1;};
-	RESULT streamed(ePtr<iStreamedService> &ptr){ ptr=this; return 0;};
+	RESULT streamed(ePtr<iStreamedService> &ptr){ ptr=0; return -1;};
 	RESULT keys(ePtr<iServiceKeys> &ptr){ ptr=0; return -1;};
-	void setQpipMode(bool value, bool audio){};
 
 	// iPausableService
 	RESULT pause();
@@ -147,10 +139,6 @@ public:
 	RESULT getPlayPosition(pts_t &SWIG_OUTPUT);
 	RESULT setTrickmode(int trick);
 	RESULT isCurrentlySeekable();
-
-	// iStreamedService
-	ePtr<iStreamBufferInfo> getBufferCharge(){ return 0; };
-	int setBufferSize(int size){ (void)size; }
 
 	// iAudioTrackSelection
 	int getNumberOfTracks();
