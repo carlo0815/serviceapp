@@ -19,7 +19,7 @@ from enigma import eEnv, eServiceReference
 
 from . import _
 #import Plugins.SystemPlugins.ServiceApp.serviceapp_client
-from . serviceapp_client import *
+from . import serviceapp_client
 
 
 SINKS_DEFAULT = ("", "")
@@ -27,10 +27,10 @@ SINKS_EXPERIMENTAL = ("dvbvideosinkexp", "dvbaudiosinkexp")
 
 sink_choices = []
 if (os.path.isfile(eEnv.resolve("$libdir/gstreamer-1.0/libgstdvbvideosink.so")) and
-		os.path.isfile(eEnv.resolve("$libdir/gstreamer-1.0/libgstdvbaudiosink.so"))):
+	os.path.isfile(eEnv.resolve("$libdir/gstreamer-1.0/libgstdvbaudiosink.so"))):
 	sink_choices.append(("original", _("original")))
 if (os.path.isfile(eEnv.resolve("$libdir/gstreamer-1.0/libgstdvbvideosinkexp.so")) and
-		os.path.isfile(eEnv.resolve("$libdir/gstreamer-1.0/libgstdvbaudiosinkexp.so"))):
+	os.path.isfile(eEnv.resolve("$libdir/gstreamer-1.0/libgstdvbaudiosinkexp.so"))):
 	sink_choices.append(("experimental", _("experimental")))
 
 player_choices = [("gstplayer", _("gstplayer")), ("exteplayer3", _("exteplayer3"))]

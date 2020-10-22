@@ -86,7 +86,7 @@ AC_DEFUN([AX_PYTHON_DEVEL],[
 	fi
 
 	#
-	# Check for a version of Python >= 2.1.0
+	# Check for a version of Python >= 3.8.0
 	#
 	AC_MSG_CHECKING([for a version of Python >= '3.8.0'])
 	ac_supports_python_ver=`$PYTHON -c "import sys; \
