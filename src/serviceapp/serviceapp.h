@@ -116,21 +116,22 @@ public:
 #else
 	RESULT setTarget(int target){return -1;}
 #endif
-	RESULT seek(ePtr<iSeekableService> &ptr){ ptr=this; return 0;};
-	RESULT pause(ePtr<iPauseableService> &ptr){ ptr=this; return 0;};
-	RESULT audioTracks(ePtr<iAudioTrackSelection> &ptr) { ptr=this; return 0;};
-	RESULT audioChannel(ePtr<iAudioChannelSelection> &ptr) { ptr=this; return 0;};
-	RESULT info(ePtr<iServiceInformation> &ptr) { ptr=this; return 0;};
-	RESULT subServices(ePtr<iSubserviceList> &ptr){ ptr=this; return 0;};
-	RESULT frontendInfo(ePtr<iFrontendInformation> &ptr){ ptr=0; return -1;};
-	RESULT timeshift(ePtr<iTimeshiftService> &ptr){ ptr=0; return -1;};
-	RESULT cueSheet(ePtr<iCueSheet> &ptr){ ptr=0; return -1;};
-	RESULT subtitle(ePtr<iSubtitleOutput> &ptr){ ptr=this; return 0;};
-	RESULT audioDelay(ePtr<iAudioDelay> &ptr){ ptr=0; return -1;};
-	RESULT rdsDecoder(ePtr<iRdsDecoder> &ptr){ ptr=0; return -1;};
-	RESULT stream(ePtr<iStreamableService> &ptr){ ptr=0; return -1;};
-	RESULT streamed(ePtr<iStreamedService> &ptr){ ptr=this; return 0;};
-	RESULT keys(ePtr<iServiceKeys> &ptr){ ptr=0; return -1;};
+	RESULT seek(ePtr<iSeekableService> &ptr){ ptr = this; return 0;};
+	RESULT pause(ePtr<iPauseableService> &ptr){ ptr = this; return 0;};
+	RESULT audioTracks(ePtr<iAudioTrackSelection> &ptr) { ptr = this; return 0;};
+	RESULT audioChannel(ePtr<iAudioChannelSelection> &ptr) { ptr = this; return 0;};
+	RESULT info(ePtr<iServiceInformation> &ptr) { ptr = this; return 0;};
+	RESULT subServices(ePtr<iSubserviceList> &ptr){ ptr = this; return 0;};
+	RESULT frontendInfo(ePtr<iFrontendInformation> &ptr){ ptr = 0; return -1;};
+	RESULT timeshift(ePtr<iTimeshiftService> &ptr){ ptr = 0; return -1;};
+	RESULT tap(ePtr<iTapService> &ptr) { ptr = 0; return -1; };
+	RESULT cueSheet(ePtr<iCueSheet> &ptr){ ptr = 0; return -1;};
+	RESULT subtitle(ePtr<iSubtitleOutput> &ptr){ ptr = this; return 0;};
+	RESULT audioDelay(ePtr<iAudioDelay> &ptr){ ptr = 0; return -1;};
+	RESULT rdsDecoder(ePtr<iRdsDecoder> &ptr){ ptr = 0; return -1;};
+	RESULT stream(ePtr<iStreamableService> &ptr){ ptr = 0; return -1;};
+	RESULT streamed(ePtr<iStreamedService> &ptr){ ptr = this; return 0;};
+	RESULT keys(ePtr<iServiceKeys> &ptr){ ptr = 0; return -1;};
 	void setQpipMode(bool value, bool audio){};
 
 	// iPausableService
@@ -211,9 +212,9 @@ public:
 
 	// iServiceHandler
 	RESULT play(const eServiceReference &ref, ePtr<iPlayableService> &ptr){ptr = new eServiceApp(ref); return 0;};
-	RESULT record(const eServiceReference &, ePtr<iRecordableService> &ptr){ptr=0;return -1;};
-	RESULT list(const eServiceReference &, ePtr<iListableService> &ptr){ptr=0;return -1;};
-	RESULT info(const eServiceReference &, ePtr<iStaticServiceInformation> &ptr){ptr=m_service_info; return 0;};
+	RESULT record(const eServiceReference &, ePtr<iRecordableService> &ptr){ptr = 0;return -1;};
+	RESULT list(const eServiceReference &, ePtr<iListableService> &ptr){ptr = 0;return -1;};
+	RESULT info(const eServiceReference &, ePtr<iStaticServiceInformation> &ptr){ptr = m_service_info; return 0;};
 	RESULT offlineOperations(const eServiceReference &, ePtr<iServiceOfflineOperations> &ptr);
 };
 #endif
